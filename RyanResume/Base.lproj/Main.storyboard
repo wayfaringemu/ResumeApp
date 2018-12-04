@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Rvf-Db-JrS">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -10,10 +10,41 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Loading View Controller-->
+        <scene sceneID="Rn3-FB-x62">
+            <objects>
+                <viewController storyboardIdentifier="LoadingViewController" id="Rvf-Db-JrS" customClass="LoadingViewController" customModule="RyanResume" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="low-Ss-430">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vxY-3C-rCe">
+                                <rect key="frame" x="50.5" y="205" width="274" height="257"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="257" id="78D-hM-XmQ"/>
+                                    <constraint firstAttribute="width" constant="274" id="BHn-Ah-vln"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="vxY-3C-rCe" firstAttribute="centerX" secondItem="low-Ss-430" secondAttribute="centerX" id="1tv-qs-uyE"/>
+                            <constraint firstItem="vxY-3C-rCe" firstAttribute="centerY" secondItem="low-Ss-430" secondAttribute="centerY" id="Yon-ZG-SPP"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Gso-JO-GGm"/>
+                    </view>
+                    <connections>
+                        <outlet property="loadingImageView" destination="vxY-3C-rCe" id="gAy-Cc-l3o"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ezK-x7-hbQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-668" y="-123"/>
+        </scene>
+        <!--First View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="RyanResume" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FirstViewController" id="BYZ-38-t0r" customClass="FirstViewController" customModule="RyanResume" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -30,14 +61,11 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tvk-ea-efe">
-                                                    <rect key="frame" x="8" y="11.5" width="327" height="20.5"/>
+                                                    <rect key="frame" x="8" y="12" width="327" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q4b-sU-ekV">
-                                                    <rect key="frame" x="8" y="8" width="327" height="27.5"/>
-                                                </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jhX-EU-bU6">
                                                     <rect key="frame" x="8" y="7" width="327" height="30"/>
                                                     <state key="normal" title="Button"/>
@@ -45,19 +73,15 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="Tvk-ea-efe" firstAttribute="leading" secondItem="JnX-OQ-qZ2" secondAttribute="leading" constant="8" id="0oy-35-WRX"/>
-                                                <constraint firstItem="Q4b-sU-ekV" firstAttribute="centerY" secondItem="JnX-OQ-qZ2" secondAttribute="centerY" id="4vH-yY-gbo"/>
                                                 <constraint firstAttribute="trailing" secondItem="Tvk-ea-efe" secondAttribute="trailing" constant="8" id="Bet-lQ-fox"/>
                                                 <constraint firstItem="jhX-EU-bU6" firstAttribute="leading" secondItem="JnX-OQ-qZ2" secondAttribute="leading" constant="8" id="GFV-Zk-Qgl"/>
                                                 <constraint firstItem="jhX-EU-bU6" firstAttribute="centerY" secondItem="JnX-OQ-qZ2" secondAttribute="centerY" id="QEf-6D-tJR"/>
-                                                <constraint firstItem="Q4b-sU-ekV" firstAttribute="leading" secondItem="JnX-OQ-qZ2" secondAttribute="leading" constant="8" id="Uh8-W9-K5B"/>
-                                                <constraint firstAttribute="trailing" secondItem="Q4b-sU-ekV" secondAttribute="trailing" constant="8" id="fE2-6v-u0h"/>
                                                 <constraint firstItem="Tvk-ea-efe" firstAttribute="centerY" secondItem="JnX-OQ-qZ2" secondAttribute="centerY" id="jAU-pr-kif"/>
                                                 <constraint firstAttribute="trailing" secondItem="jhX-EU-bU6" secondAttribute="trailing" constant="8" id="pCb-71-ddE"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="cellButton" destination="jhX-EU-bU6" id="arj-2R-DRO"/>
-                                            <outlet property="cellImageView" destination="Q4b-sU-ekV" id="YbS-oz-Y9T"/>
                                             <outlet property="cellLabel" destination="Tvk-ea-efe" id="9du-ve-DKQ"/>
                                         </connections>
                                     </tableViewCell>
@@ -83,7 +107,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="132" y="132.68365817091455"/>
+            <point key="canvasLocation" x="399" y="-129"/>
         </scene>
     </scenes>
 </document>

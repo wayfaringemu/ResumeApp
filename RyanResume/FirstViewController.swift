@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  FirstViewController.swift
 //  RyanResume
 //
 //  Created by ryan kowalski on 11/13/18.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class FirstViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     lazy var tableViewArray = [TextObject]()
     let modelVc = ModelViewController()
     
