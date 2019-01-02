@@ -12,18 +12,15 @@ class FirstViewController: UIViewController, UITableViewDelegate, UITableViewDat
     lazy var tableViewArray = [TextObject]()
     let modelVc = ModelViewController()
     
-    
-    let myPhoneObject = TextObject()
-    let myAddressObject = TextObject()
-    
     @IBOutlet weak var tableView: UITableView!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.sizeToFit()
         setupTableViewArray()
     }
+    
+    //MARK: TableView Functions
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 32
@@ -34,7 +31,7 @@ class FirstViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "resumeTableViewCell") as? resumeTableViewCell {
-
+            
             switch tableViewArray[indexPath.row].labelType {
             case .cellLabel?:
                 cell.cellLabel?.text = tableViewArray[indexPath.row].labelString
@@ -65,92 +62,115 @@ class FirstViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
-    // MARK: - Array Setup
+//MARK: Array Setup
     
     func setupTableViewArray() {
+        if let myName = Constants.resumeObject.myName,
+            let myEmail = Constants.resumeObject.myEmail,
+            let myPhone = Constants.resumeObject.myPhone,
+            let myAddress = Constants.resumeObject.myAddress,
+            let jobOneTitle = Constants.resumeObject.jobOneTitle,
+            let jobOneYearCompanyLoc = Constants.resumeObject.jobOneYearCompanyLoc
+            
+        {
+            
+            tableViewArray.append(modelVc.createResumeCell(displayString: myName, labelType: .cellLabel, fontType: chalkBoardFont.bold, justification: .centerJustify))
+            tableViewArray.append(modelVc.createResumeCell(displayString: myEmail, labelType: .cellButton, fontType: nil, justification: .centerJustify))
+            tableViewArray.append(modelVc.createResumeCell(displayString: myPhone, labelType: .cellButton, fontType: nil, justification: .centerJustify))
+            tableViewArray.append(modelVc.createResumeCell(displayString: myAddress, labelType: .cellLabel, fontType: helveticaFont.regular, justification: .centerJustify))
+            tableViewArray.append(modelVc.createResumeCell(displayString: "", labelType: .cellLabel, fontType: helveticaFont.regular, justification: .centerJustify))
+            
+            tableViewArray.append(modelVc.createResumeCell(displayString: "PROFESSIONAL EXPERIENCE", labelType: .cellLabel, fontType: chalkBoardFont.bold, justification: .leftJustify))
+            
+//MARK: First Job
+            
+            tableViewArray.append(modelVc.createResumeCell(displayString: jobOneYearCompanyLoc, labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
+            tableViewArray.append(modelVc.createResumeCell(displayString: jobOneTitle, labelType: .cellLabel, fontType: helveticaFont.italicBold, justification: .leftJustify))
+            
+            if let skillz = Constants.resumeObject.jobOneExperiences {
+                let skillzArray = skillz.split{$0 == ","}.map(String.init)
+                for skill in skillzArray {
+                    let skillString = "         * " + skill
+                    tableViewArray.append(modelVc.createResumeCell(displayString: skillString, labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
+                }
+            }
+        }
         
-        tableViewArray.append(modelVc.createResumeCell(displayString: "Ryan Kowalski", labelType: .cellLabel, fontType: chalkBoardFont.bold, justification: .centerJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "rykowalspt@gmail.com", labelType: .cellButton, fontType: nil, justification: .centerJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "248-431-2816", labelType: .cellButton, fontType: nil, justification: .centerJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "Ortonville, Mi. 48462", labelType: .cellLabel, fontType: helveticaFont.regular, justification: .centerJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "", labelType: .cellLabel, fontType: helveticaFont.regular, justification: .centerJustify))
+//MARK: Second Job
         
-        tableViewArray.append(modelVc.createResumeCell(displayString: "PROFESSIONAL EXPERIENCE", labelType: .cellLabel, fontType: chalkBoardFont.bold, justification: .leftJustify))
+        if let jobTwoTitle = Constants.resumeObject.jobTwoTitle,
+            let jobTwoYearCompanyLoc = Constants.resumeObject.jobTwoYearCompanyLoc {
+            
+            tableViewArray.append(modelVc.createResumeCell(displayString: "", labelType: .cellLabel, fontType: helveticaFont.regular, justification: .centerJustify))
+            tableViewArray.append(modelVc.createResumeCell(displayString: jobTwoYearCompanyLoc, labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
+            tableViewArray.append(modelVc.createResumeCell(displayString: jobTwoTitle, labelType: .cellLabel, fontType: helveticaFont.italicBold, justification: .leftJustify))
+            
+            if let skillz = Constants.resumeObject.jobTwoExperiences {
+                let skillzArray = skillz.split{$0 == ","}.map(String.init)
+                for skill in skillzArray {
+                    let skillString = "         * " + skill
+                    tableViewArray.append(modelVc.createResumeCell(displayString: skillString, labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
+                }
+            }
+        }
         
-        // MARK: - First Job
-        tableViewArray.append(modelVc.createResumeCell(displayString: "2015-Present             Quicken Loans                       Detroit, MI", labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "iOS Developer", labelType: .cellLabel, fontType: helveticaFont.italicBold, justification: .leftJustify))
+//MARK: Third Job
         
-        
-        tableViewArray.append(modelVc.createResumeCell(displayString: "         * Keep up to date with latest UI and code standards", labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "         * Build features and apps based on requirements from our business partners", labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "         * Assisting Quality Engineers with testing of our apps", labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "         * Build features both with and without Storyboards", labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "         * Utilizing libraries such as Alamofire to make and process network calls to Rest API", labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "         * Worked in fast paced AGILE environment", labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
-        
-        // MARK: - Second Job
-        
-        tableViewArray.append(modelVc.createResumeCell(displayString: "", labelType: .cellLabel, fontType: helveticaFont.regular, justification: .centerJustify))
-        
-        
-        tableViewArray.append(modelVc.createResumeCell(displayString: "2011-2015             Quicken Loans                       Detroit, MI", labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "Mac Systems Engineer/ App Developer", labelType: .cellLabel, fontType: helveticaFont.italicBold, justification: .leftJustify))
-        
-        tableViewArray.append(modelVc.createResumeCell(displayString: "         * Wrote custom apps and scripts using Bash and Applescript", labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "         * Wrote Obj-C company directory iOS app", labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "         * Rewrote company directory iOS app in Swift", labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "         * Wrote company survey app in Swift", labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "         * Automated processes to make Mac’s perform as needed in our environment", labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "         * Built and maintained custom proprietary encryption enterprise solution", labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "         * Built and maintained custom Lock Screen implementation to work with all different screen sizes, company logos, and OS versions", labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "         * Built and maintained custom Mac and Linux vm’s for testing and production", labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "         * Architected and set up multiple MDM POC environments", labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
-        
-        // MARK: - Third Job
-        
-        tableViewArray.append(modelVc.createResumeCell(displayString: "", labelType: .cellLabel, fontType: helveticaFont.regular, justification: .centerJustify))
-        
-        tableViewArray.append(modelVc.createResumeCell(displayString: "2009-2011             Quicken Loans                       Detroit, MI", labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "Mac and Windows Desktop Technician", labelType: .cellLabel, fontType: helveticaFont.italicBold, justification: .leftJustify))
-        
-        
-        tableViewArray.append(modelVc.createResumeCell(displayString: "         * Troubleshoot system issues with Mac’s and pc’s", labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "         * Deploy Mac and Windows machines to team members", labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "         * Work with Engineering teams to accomplish permanent resolutions", labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
-        
-        // MARK: - Education
-        tableViewArray.append(modelVc.createResumeCell(displayString: "", labelType: .cellLabel, fontType: helveticaFont.regular, justification: .centerJustify))
-        
-        tableViewArray.append(modelVc.createResumeCell(displayString: "EDUCATION", labelType: .cellLabel, fontType: chalkBoardFont.bold, justification: .leftJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "2014             Grand Circus                       Detroit, MI", labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "iOS Development Class", labelType: .cellLabel, fontType: helveticaFont.italicBold, justification: .leftJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "2011             Apple                       Novi, MI", labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "Apple Certified Mac Technician", labelType: .cellLabel, fontType: helveticaFont.italicBold, justification: .leftJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "1997-2001             University of Michigan                       Flint, MI", labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "Business Major", labelType: .cellLabel, fontType: helveticaFont.italicBold, justification: .leftJustify))
-        
-        
-        // MARK: - Skills
-        
-        tableViewArray.append(modelVc.createResumeCell(displayString: "", labelType: .cellLabel, fontType: helveticaFont.regular, justification: .centerJustify))
-        
-        tableViewArray.append(modelVc.createResumeCell(displayString: "SKILLS", labelType: .cellLabel, fontType: chalkBoardFont.bold, justification: .leftJustify))
-        
-        tableViewArray.append(modelVc.createResumeCell(displayString: "         * Bash, Applescript", labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "         * Swift / Objective C", labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "         * Agile", labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "         * Rest API", labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "         * CocoaPods", labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "         * Carthage", labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "         * Alamofire", labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
-        tableViewArray.append(modelVc.createResumeCell(displayString: "         * Linux", labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
-        
+        if let jobThreeTitle = Constants.resumeObject.jobThreeTitle,
+            let jobThreeYearCompanyLoc = Constants.resumeObject.jobThreeYearCompanyLoc {
+            
+            tableViewArray.append(modelVc.createResumeCell(displayString: "", labelType: .cellLabel, fontType: helveticaFont.regular, justification: .centerJustify))
+            
+            tableViewArray.append(modelVc.createResumeCell(displayString: jobThreeYearCompanyLoc, labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
+            tableViewArray.append(modelVc.createResumeCell(displayString: jobThreeTitle, labelType: .cellLabel, fontType: helveticaFont.italicBold, justification: .leftJustify))
+            
+            if let skillz = Constants.resumeObject.jobThreeExperiences {
+                let skillzArray = skillz.split{$0 == ","}.map(String.init)
+                for skill in skillzArray {
+                    let skillString = "         * " + skill
+                    tableViewArray.append(modelVc.createResumeCell(displayString: skillString, labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
+                }
+            }
+            
+//MARK: Education
+            
+            if let schoolOneDates = Constants.resumeObject.schoolOneYearCompanyDates,
+                let schoolOneTitle = Constants.resumeObject.schoolOneTitle,
+                let schoolTwoDates = Constants.resumeObject.schoolTwoYearCompanyDates,
+                let schoolTwoTitle = Constants.resumeObject.schoolTwoTitle,
+                let schoolThreeDates = Constants.resumeObject.schoolThreeYearCompanyDates,
+                let schoolThreeTitle = Constants.resumeObject.schoolThreeTitle {
+                
+                tableViewArray.append(modelVc.createResumeCell(displayString: "", labelType: .cellLabel, fontType: helveticaFont.regular, justification: .centerJustify))
+                
+                tableViewArray.append(modelVc.createResumeCell(displayString: "EDUCATION", labelType: .cellLabel, fontType: chalkBoardFont.bold, justification: .leftJustify))
+                tableViewArray.append(modelVc.createResumeCell(displayString: schoolOneDates, labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
+                tableViewArray.append(modelVc.createResumeCell(displayString: schoolOneTitle, labelType: .cellLabel, fontType: helveticaFont.italicBold, justification: .leftJustify))
+                tableViewArray.append(modelVc.createResumeCell(displayString: schoolTwoDates, labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
+                tableViewArray.append(modelVc.createResumeCell(displayString: schoolTwoTitle, labelType: .cellLabel, fontType: helveticaFont.italicBold, justification: .leftJustify))
+                tableViewArray.append(modelVc.createResumeCell(displayString: schoolThreeDates, labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
+                tableViewArray.append(modelVc.createResumeCell(displayString: schoolThreeTitle, labelType: .cellLabel, fontType: helveticaFont.italicBold, justification: .leftJustify))
+            }
+            
+//MARK: Skills
+            
+            tableViewArray.append(modelVc.createResumeCell(displayString: "", labelType: .cellLabel, fontType: helveticaFont.regular, justification: .centerJustify))
+            
+            tableViewArray.append(modelVc.createResumeCell(displayString: "SKILLS", labelType: .cellLabel, fontType: chalkBoardFont.bold, justification: .leftJustify))
+            
+            if let skillString = Constants.resumeObject.jobSkillString {
+                let skillzArray = skillString.split{$0 == ","}.map(String.init)
+                for skill in skillzArray {
+                    let skillString = "         * " + skill
+                    tableViewArray.append(modelVc.createResumeCell(displayString: skillString, labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
+                }
+            }
+        }
         self.tableView.reloadData()
     }
 }
 
-// MARK: - TableView Cell
+//MARK: TableView Cell
 
 class resumeTableViewCell: UITableViewCell {
     
