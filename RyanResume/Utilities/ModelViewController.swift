@@ -19,26 +19,6 @@ enum CellJustification {
     case rightJustify
 }
 
-class ModelViewController {
-    
-    func createResumeCell(displayString: String, labelType: CellTypes, fontType: UIFont?, justification: CellJustification ) -> TextObject {
-        let textObject = TextObject()
-        textObject.labelType = labelType
-        textObject.justification = justification
-
-        switch labelType {
-        case .cellButton:
-            textObject.buttonString = displayString
-            return textObject
-        case .cellLabel:
-            textObject.labelString = displayString
-            textObject.fontType = fontType
-            return textObject
-        }
-    }
-}
-
-
 class TextObject: NSObject {
     var labelString: String?
     var labelType: CellTypes?
