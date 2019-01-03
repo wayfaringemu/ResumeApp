@@ -61,7 +61,7 @@ class FirstViewController: UIViewController, UITableViewDelegate, UITableViewDat
             tableViewArray.append(self.createResumeCell(displayString: jobOneTitle, labelType: .cellLabel, fontType: helveticaFont.italicBold, justification: .leftJustify))
             
             if let skillz = Constants.resumeObject.jobOneExperiences {
-                let skillzArray = skillz.split{$0 == ","}.map(String.init)
+                let skillzArray = skillz.split{$0 == "_"}.map(String.init)
                 for skill in skillzArray {
                     let skillString = "         * " + skill
                     tableViewArray.append(self.createResumeCell(displayString: skillString, labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
@@ -79,7 +79,7 @@ class FirstViewController: UIViewController, UITableViewDelegate, UITableViewDat
             tableViewArray.append(self.createResumeCell(displayString: jobTwoTitle, labelType: .cellLabel, fontType: helveticaFont.italicBold, justification: .leftJustify))
             
             if let skillz = Constants.resumeObject.jobTwoExperiences {
-                let skillzArray = skillz.split{$0 == ","}.map(String.init)
+                let skillzArray = skillz.split{$0 == "_"}.map(String.init)
                 for skill in skillzArray {
                     let skillString = "         * " + skill
                     tableViewArray.append(self.createResumeCell(displayString: skillString, labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
@@ -98,7 +98,7 @@ class FirstViewController: UIViewController, UITableViewDelegate, UITableViewDat
             tableViewArray.append(self.createResumeCell(displayString: jobThreeTitle, labelType: .cellLabel, fontType: helveticaFont.italicBold, justification: .leftJustify))
             
             if let skillz = Constants.resumeObject.jobThreeExperiences {
-                let skillzArray = skillz.split{$0 == ","}.map(String.init)
+                let skillzArray = skillz.split{$0 == "_"}.map(String.init)
                 for skill in skillzArray {
                     let skillString = "         * " + skill
                     tableViewArray.append(self.createResumeCell(displayString: skillString, labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
@@ -132,7 +132,7 @@ class FirstViewController: UIViewController, UITableViewDelegate, UITableViewDat
             tableViewArray.append(self.createResumeCell(displayString: "SKILLS", labelType: .cellLabel, fontType: chalkBoardFont.bold, justification: .leftJustify))
             
             if let skillString = Constants.resumeObject.jobSkillString {
-                let skillzArray = skillString.split{$0 == ","}.map(String.init)
+                let skillzArray = skillString.split{$0 == "_"}.map(String.init)
                 for skill in skillzArray {
                     let skillString = "         * " + skill
                     tableViewArray.append(self.createResumeCell(displayString: skillString, labelType: .cellLabel, fontType: helveticaFont.italic, justification: .leftJustify))
