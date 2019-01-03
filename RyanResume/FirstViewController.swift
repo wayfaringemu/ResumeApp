@@ -11,18 +11,22 @@ import MessageUI
 
 class FirstViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate {
     lazy var tableViewArray = [UITableViewCell]()
+    var labelHeight: CGFloat = 0.0
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.sizeToFit()
         setupTableViewArray()
     }
     
-    //MARK: TableView Functions
+//MARK: TableView Functions
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 32
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            return labelHeight
+        } else {
+            return labelHeight + 24
+        }
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableViewArray.count
@@ -30,42 +34,6 @@ class FirstViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return tableViewArray[indexPath.row]
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch indexPath.row {
-        case 1:
-            print("email selected")
-            if let myEmail = Constants.resumeObject.myEmail {
-                sendEmail(emailAddress: myEmail)
-            }
-        case 2:
-            print("phone selected")
-            if let myPhone = Constants.resumeObject.myPhone, let number = URL(string: "tel://" + myPhone) {
-                myPhone.makeACall()
-            }
-        default: break
-        }
-    }
-    
-//MARK: Compose Email
-    
-    func sendEmail(emailAddress: String) {
-        if MFMailComposeViewController.canSendMail() {
-            let mail = MFMailComposeViewController()
-            mail.mailComposeDelegate = self
-            mail.setToRecipients([emailAddress])
-            mail.setMessageBody("<p>You're so awesome!</p>", isHTML: true)
-            
-            present(mail, animated: true)
-        } else {
-            // show failure alert
-            print("email failed to present")
-        }
-    }
-    
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        controller.dismiss(animated: true)
     }
     
 //MARK: Array Setup
@@ -77,7 +45,6 @@ class FirstViewController: UIViewController, UITableViewDelegate, UITableViewDat
             let myAddress = Constants.resumeObject.myAddress,
             let jobOneTitle = Constants.resumeObject.jobOneTitle,
             let jobOneYearCompanyLoc = Constants.resumeObject.jobOneYearCompanyLoc
-            
         {
             
             tableViewArray.append(self.createResumeCell(displayString: myName, labelType: .cellLabel, fontType: chalkBoardFont.bold, justification: .centerJustify))
@@ -175,7 +142,7 @@ class FirstViewController: UIViewController, UITableViewDelegate, UITableViewDat
         self.tableView.reloadData()
     }
     
-    //MARK: Create Cells:
+//MARK: Create Cells:
     
     func createResumeCell(displayString: String, labelType: CellTypes, fontType: UIFont?, justification: CellJustification ) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "resumeTableViewCell") as? resumeTableViewCell {
@@ -192,53 +159,64 @@ class FirstViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 }
             case .cellButton:
                 cell.cellButton?.setTitle(displayString, for: .normal)
+                cell.tag = Constants.objectCount
                 cell.cellLabel?.isHidden = true
+            }
+            if let font = fontType, displayString.height(constraintedWidth: self.view.frame.width, font: font) > labelHeight {
+                labelHeight = displayString.height(constraintedWidth: self.view.frame.width, font: font)
             }
             Constants.objectCount += 1
             return cell
         }
         return UITableViewCell()
     }
+    
+//MARK: Button Clicked Action
+    
+    @IBAction func cellButtonClicked(_ sender: UIButton) {
+        if let emailTitle = Constants.resumeObject.myEmail {
+            if sender.currentTitle == emailTitle {
+                let email = emailTitle
+                if let url = URL(string: "mailto:\(email)") {
+                    if #available(iOS 10.0, *) {
+                        UIApplication.shared.open(url)
+                    } else {
+                        UIApplication.shared.openURL(url)
+                    }
+                }
+            } else {
+                if let myPhone = Constants.resumeObject.myPhone {
+                    var phoneString = myPhone
+                    phoneString = phoneString.replacingOccurrences(of: "(", with: "", options: NSString.CompareOptions.literal, range:nil)
+                    phoneString = phoneString.replacingOccurrences(of: ")", with: "", options: NSString.CompareOptions.literal, range:nil)
+                    phoneString = phoneString.replacingOccurrences(of: "-", with: "", options: NSString.CompareOptions.literal, range:nil)
+                    phoneString = phoneString.replacingOccurrences(of: " ", with: "", options: NSString.CompareOptions.literal, range:nil)
+                    print(phoneString)
+                    
+                    if let number = URL(string: "tel://" + phoneString) {
+                    UIApplication.shared.open(number, options: [:], completionHandler: nil)
+                    }
+                }
+            }
+        }
+    }
 }
 
 //MARK: TableView Cell
 
 class resumeTableViewCell: UITableViewCell {
-    
     @IBOutlet weak var cellLabel: UILabel?
-    @IBOutlet weak var cellImageView: UIImageView?
     @IBOutlet weak var cellButton: UIButton?
 }
 
 extension String {
-    
-    enum RegularExpressions: String {
-        case phone = "^\\s*(?:\\+?(\\d{1,3}))?([-. (]*(\\d{3})[-. )]*)?((\\d{3})[-. ]*(\\d{2,4})(?:[-.x ]*(\\d+))?)\\s*$"
-    }
-    
-    func isValid(regex: RegularExpressions) -> Bool {
-        return isValid(regex: regex.rawValue)
-    }
-    
-    func isValid(regex: String) -> Bool {
-        let matches = range(of: regex, options: .regularExpression)
-        return matches != nil
-    }
-    
-    func onlyDigits() -> String {
-        let filtredUnicodeScalars = unicodeScalars.filter{CharacterSet.decimalDigits.contains($0)}
-        return String(String.UnicodeScalarView(filtredUnicodeScalars))
-    }
-    
-    func makeACall() {
-        if isValid(regex: .phone) {
-            if let url = URL(string: "tel://\(self.onlyDigits())"), UIApplication.shared.canOpenURL(url) {
-                if #available(iOS 10, *) {
-                    UIApplication.shared.open(url)
-                } else {
-                    UIApplication.shared.openURL(url)
-                }
-            }
-        }
+    func height(constraintedWidth width: CGFloat, font: UIFont) -> CGFloat {
+        let label =  UILabel(frame: CGRect(x: 0, y: 0, width: width, height: .greatestFiniteMagnitude))
+        label.numberOfLines = 0
+        label.text = self
+        label.font = font
+        label.sizeToFit()
+        
+        return label.frame.height
     }
 }
