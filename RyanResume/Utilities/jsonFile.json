@@ -1,0 +1,42 @@
+{
+headerOne =     {
+address = "Ortonville, Michigan 48462";
+email = "rykowalspt@gmail.com";
+name = "Ryan Kowalski";
+phone = "(248) 431-2816";
+};
+jobs =     {
+education =         {
+placeOne =             {
+className = "iOS Development Class";
+yearCompanyDates = "2014          Grand Circus          Detroit, MI";
+};
+placeThree =             {
+className = "Business Major";
+yearCompanyDates = "1997-2001          University of Michigan          Flint, MI";
+};
+placeTwo =             {
+className = "Apple Certified Mac Technician";
+yearCompanyDates = "2011          Apple          Novi, MI";
+};
+};
+jobOne =         {
+experiences = "Keep up to date with latest UI and code standards,Build features and apps based on requirements from our business partners,Assisting Quality Engineers with testing of our apps,Build features both with and without Storyboards,Utilizing libraries such as Alamofire to make and process network calls to Rest API,Worked in fast paced AGILE environment";
+title = "iOS Developer";
+yearCompanyDates = "2015-Present   Quicken Loans           Detroit, MI";
+};
+jobThree =         {
+experiences = "Troubleshoot system issues with Mac\U2019s and PC\U2019s,Deploy Mac and Windows machines to team members,Work with Engineering teams to accomplish permanent resolutions";
+title = "Mac and Windows Desktop Technician";
+yearCompanyDates = "2009-2011   Quicken Loans           Detroit, MI";
+};
+jobTwo =         {
+experiences = "Wrote custom apps and scripts using Bash and Applescript,Wrote Obj-C company directory iOS app,Rewrote company directory iOS app in Swift,Wrote company survey app in Swift that gets used weekly,Automated processes to make Mac\U2019s perform as needed in our environment, Built and maintained custom proprietary encryption enterprise solution,Built and maintained custom Lock Screen implementation to work with all different screen sizes, company logos, and OS versions,Built and maintained custom Mac and Linux vm\U2019s for testing and production,Architected and set up multiple MDM POC environments";
+title = "Mac Systems Engineer/ App Developer";
+yearCompanyDates = "2011-2015   Quicken Loans           Detroit, MI";
+};
+};
+skills =     {
+skillNamesCSV = "Bash,Applescript,Swift,Objective-C,Agile,Rest API,Critical Thinking,Linux,Networking";
+};
+}
